@@ -1957,7 +1957,7 @@ input, select, textarea { font: inherit; }
 .announce-bar {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 200;
+  z-index: 1001;
   background: linear-gradient(90deg, #0a1628 0%, #0e2040 60%, #0a1628 100%);
   border-bottom: 1px solid rgba(0,180,255,.25);
   padding: 0 20px;
@@ -2056,6 +2056,10 @@ body.has-announce-bar .navbar {
 
 body.has-announce-bar .progress-bar {
   top: 44px;
+}
+
+body.has-announce-bar .hero {
+  padding-top: 114px;
 }
 
 @media (max-width: 600px) {
