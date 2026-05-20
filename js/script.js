@@ -103,6 +103,13 @@ if (contactForm) {
   });
 }
 
+/* ── Select placeholder coloring ── */
+document.querySelectorAll('.cf-group select').forEach(sel => {
+  const update = () => sel.classList.toggle('is-placeholder', sel.value === '');
+  update();
+  sel.addEventListener('change', update);
+});
+
 /* ── Toast ── */
 function showToast() {
   const toast = document.getElementById('toast');
