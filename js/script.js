@@ -293,12 +293,22 @@ document.querySelectorAll('.solution-card, .plano, .pain-card').forEach(card => 
     stickyVisible = true;
     scoreSticky.classList.add('visible');
     document.body.classList.add('sticky-demo-visible');
+    if (whatsappBtn) {
+      whatsappBtn.style.setProperty('opacity', '0', 'important');
+      whatsappBtn.style.setProperty('visibility', 'hidden', 'important');
+      whatsappBtn.style.setProperty('pointer-events', 'none', 'important');
+    }
   }
 
   function hideSticky() {
     stickyVisible = false;
     scoreSticky.classList.remove('visible');
     document.body.classList.remove('sticky-demo-visible');
+    if (whatsappBtn) {
+      whatsappBtn.style.removeProperty('opacity');
+      whatsappBtn.style.removeProperty('visibility');
+      whatsappBtn.style.removeProperty('pointer-events');
+    }
   }
 
   function checkSticky() {
