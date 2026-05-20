@@ -2209,6 +2209,13 @@ body.has-announce-bar .hero {
 
 .score-sticky__dismiss:hover { color: rgba(214,234,248,.7); }
 
+/* Esconde WhatsApp quando sticky CTA está ativo */
+body.sticky-demo-visible .whatsapp-float {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px) scale(0.85);
+}
+
 /* Não sobrepor o botão do WhatsApp no mobile */
 @media (max-width: 768px) {
   .score-sticky {
@@ -2219,7 +2226,6 @@ body.has-announce-bar .hero {
   }
   .score-sticky__actions { width: 100%; }
   .score-sticky__cta { flex: 1; justify-content: center; }
-
   /* Sobe o whatsapp float quando o sticky está visível */
   .score-sticky.visible ~ .whatsapp-float,
   body.sticky-demo-visible .whatsapp-float {
