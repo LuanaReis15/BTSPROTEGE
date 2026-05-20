@@ -1489,3 +1489,60 @@ input, select, textarea { font: inherit; }
   .pain-cta { padding: 24px 20px; }
   .contact-card { padding: 28px 20px; }
 }
+/* ══════════════════════════════════════════
+   BTS PROTEGE SCORE PROTOTYPE
+══════════════════════════════════════════ */
+
+.prototype-notice {
+  max-width: 780px;
+  margin: -32px auto 28px;
+  padding: 14px 18px;
+  border-radius: var(--r-md);
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: var(--gray-600);
+  font-size: .9rem;
+  text-align: center;
+}
+
+.prototype-notice strong {
+  color: var(--gray-900);
+}
+
+.prototype-frame {
+  background: var(--ink);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.prototype-frame iframe {
+  display: block;
+  width: 100%;
+  min-height: 760px;
+  border: 0;
+  background: var(--ink);
+}
+
+.prototype-cta {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.prototype-cta p {
+  margin-bottom: 16px;
+  color: var(--gray-600);
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .prototype-frame iframe {
+    min-height: 720px;
+  }
+
+  .prototype-notice {
+    margin-top: -24px;
+    font-size: .82rem;
+  }
+}
