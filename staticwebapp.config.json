@@ -1,13 +1,36 @@
 {
+  "routes": [
+    {
+      "route": "/demo",
+      "serve": "/demo/index.html",
+      "statusCode": 200
+    },
+    {
+      "route": "/demo/*",
+      "serve": "/demo/{*}",
+      "statusCode": 200
+    }
+  ],
   "navigationFallback": {
-    "rewrite": "/index.html"
+    "rewrite": "/index.html",
+    "exclude": [
+      "/demo",
+      "/demo/*",
+      "*.{js,css,png,ico,jpg,jpeg,svg,woff,woff2,ttf,json,webp,gif}"
+    ]
   },
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff",
-    "X-Frame-Options": "DENY",
+    "X-Frame-Options": "SAMEORIGIN",
     "X-XSS-Protection": "1; mode=block",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "Permissions-Policy": "camera=(), microphone=(), geolocation=()"
+  },
+  "responseOverrides": {
+    "404": {
+      "rewrite": "/index.html",
+      "statusCode": 200
+    }
   },
   "mimeTypes": {
     ".json": "application/json"
