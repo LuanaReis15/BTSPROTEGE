@@ -139,3 +139,198 @@ document.querySelectorAll('.solution-card, .plano, .pain-card').forEach(card => 
     card.style.setProperty('--my', y + '%');
   });
 });
+/* ══════════════════════════════════════════════════════════════════
+   CONVERSÃO — 3 FEATURES
+   Cole no FINAL do js/script.js
+══════════════════════════════════════════════════════════════════ */
+
+(function () {
+
+  /* ── ELEMENTOS ──────────────────────────────────────────────── */
+  const announceBar     = document.getElementById('announceBar');
+  const announceClose   = document.getElementById('announceBarClose');
+  const announceCta     = document.getElementById('announceBarCta');
+  const scoreSticky     = document.getElementById('scoreSticky');
+  const stickyDismiss   = document.getElementById('scoreStickyDismiss');
+  const whatsappBtn     = document.querySelector('.whatsapp-float');
+  const scoreSection    = document.getElementById('score');
+
+  /* ════════════════════════════════════════════════════════════════
+     OPÇÃO 2 — ANNOUNCEMENT BAR
+  ════════════════════════════════════════════════════════════════ */
+
+  let barDismissed = false;
+
+  function initAnnounceBar() {
+    if (!announceBar) return;
+
+    // Verifica se já foi fechada nesta sessão
+    if (sessionStorage.getItem('announceDismissed')) {
+      hideAnnounceBar(false);
+      return;
+    }
+
+    document.body.classList.add('has-announce-bar');
+
+    // Fechar ao clicar no X
+    announceClose && announceClose.addEventListener('click', function () {
+      hideAnnounceBar(true);
+    });
+
+    // Fechar quando clicar no CTA (já vai para a seção)
+    announceCta && announceCta.addEventListener('click', function () {
+      hideAnnounceBar(true);
+    });
+  }
+
+  function hideAnnounceBar(save) {
+    barDismissed = true;
+    announceBar && announceBar.classList.add('hidden');
+    document.body.classList.remove('has-announce-bar');
+    if (save) sessionStorage.setItem('announceDismissed', '1');
+  }
+
+  // Esconde a bar quando o usuário chega na seção #score
+  function checkAnnounceBarOnScroll() {
+    if (barDismissed || !scoreSection) return;
+    const rect = scoreSection.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.5) {
+      hideAnnounceBar(false); // Esconde mas não salva (pode reaparecer)
+    }
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     OPÇÃO 1 — WHATSAPP BUTTON INTELIGENTE
+  ════════════════════════════════════════════════════════════════ */
+
+  let waDemoMode     = false;
+  let waDemoTimeout  = null;
+  let waOriginalHref = whatsappBtn ? whatsappBtn.getAttribute('href') : '';
+  let waOriginalLabel = '';
+
+  function initSmartWhatsapp() {
+    if (!whatsappBtn) return;
+    const labelEl = whatsappBtn.querySelector('.whatsapp-float__label');
+    waOriginalLabel = labelEl ? labelEl.textContent : 'Falar com Especialista';
+  }
+
+  function setWaDemo() {
+    if (!whatsappBtn || waDemoMode) return;
+    waDemoMode = true;
+    const labelEl = whatsappBtn.querySelector('.whatsapp-float__label');
+
+    whatsappBtn.classList.add('mode-demo', 'shake');
+    whatsappBtn.setAttribute('href', '#score');
+    whatsappBtn.setAttribute('aria-label', 'Ver demonstração do BTS Protege Score');
+    if (labelEl) labelEl.textContent = 'Ver a Demo';
+
+    // Remove o shake após animação
+    setTimeout(() => whatsappBtn.classList.remove('shake'), 600);
+
+    // Volta ao normal depois de 8 segundos
+    clearTimeout(waDemoTimeout);
+    waDemoTimeout = setTimeout(resetWaDemo, 8000);
+
+    // Ao clicar no modo demo, já vai para #score e reseta
+    whatsappBtn.addEventListener('click', onWaDemoClick, { once: true });
+  }
+
+  function resetWaDemo() {
+    if (!whatsappBtn || !waDemoMode) return;
+    waDemoMode = false;
+    const labelEl = whatsappBtn.querySelector('.whatsapp-float__label');
+
+    whatsappBtn.classList.remove('mode-demo', 'shake');
+    whatsappBtn.setAttribute('href', waOriginalHref);
+    whatsappBtn.setAttribute('aria-label', 'Falar pelo WhatsApp');
+    if (labelEl) labelEl.textContent = waOriginalLabel;
+    clearTimeout(waDemoTimeout);
+  }
+
+  function onWaDemoClick() {
+    resetWaDemo();
+  }
+
+  // Lógica de quando ativar o modo demo:
+  // Usuário passou pela seção #score sem interagir com ela
+  let passedScore    = false;
+  let demoTriggered  = false;
+
+  function checkSmartWhatsapp() {
+    if (!scoreSection || demoTriggered || waDemoMode) return;
+
+    const rect = scoreSection.getBoundingClientRect();
+    const scrollY = window.scrollY || window.pageYOffset;
+    const sectionBottom = rect.bottom + scrollY;
+
+    // Usuário passou do final da seção score
+    if (scrollY > sectionBottom - 100 && !passedScore) {
+      passedScore = true;
+      demoTriggered = true;
+      // Pequeno delay para não sobrepor o sticky CTA
+      setTimeout(setWaDemo, 1200);
+    }
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     OPÇÃO 3 — STICKY CTA
+  ════════════════════════════════════════════════════════════════ */
+
+  let stickyDismissed = false;
+  let stickyVisible   = false;
+
+  function initSticky() {
+    if (!scoreSticky || !stickyDismiss) return;
+
+    stickyDismiss.addEventListener('click', function () {
+      stickyDismissed = true;
+      hideSticky();
+    });
+  }
+
+  function showSticky() {
+    if (stickyDismissed || stickyVisible) return;
+    stickyVisible = true;
+    scoreSticky.classList.add('visible');
+    document.body.classList.add('sticky-demo-visible');
+  }
+
+  function hideSticky() {
+    stickyVisible = false;
+    scoreSticky.classList.remove('visible');
+    document.body.classList.remove('sticky-demo-visible');
+  }
+
+  function checkSticky() {
+    if (!scoreSection || stickyDismissed) return;
+
+    const rect = scoreSection.getBoundingClientRect();
+    const inSection =
+      rect.top  < window.innerHeight * 0.7 &&
+      rect.bottom > window.innerHeight * 0.3;
+
+    if (inSection) {
+      showSticky();
+    } else {
+      if (stickyVisible) hideSticky();
+    }
+  }
+
+  /* ── SCROLL HANDLER UNIFICADO ───────────────────────────────── */
+  function onScroll() {
+    checkAnnounceBarOnScroll();
+    checkSmartWhatsapp();
+    checkSticky();
+  }
+
+  /* ── INIT ───────────────────────────────────────────────────── */
+  initAnnounceBar();
+  initSmartWhatsapp();
+  initSticky();
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Roda uma vez no load para pegar a posição inicial
+  onScroll();
+
+})();
