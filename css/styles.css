@@ -1948,4 +1948,278 @@ input, select, textarea { font: inherit; }
     gap: 0;
   }
 }
+/* ══════════════════════════════════════════════════════════════════
+   CONVERSÃO — 3 FEATURES
+   Cole no FINAL do css/styles.css
+══════════════════════════════════════════════════════════════════ */
+
+/* ── OPÇÃO 2: ANNOUNCEMENT BAR ─────────────────────────────────── */
+.announce-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: linear-gradient(90deg, #0a1628 0%, #0e2040 60%, #0a1628 100%);
+  border-bottom: 1px solid rgba(0,180,255,.25);
+  padding: 0 20px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  transform: translateY(0);
+  transition: transform .3s ease, opacity .3s ease;
+}
+
+.announce-bar.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.announce-bar__content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  justify-content: center;
+}
+
+.announce-bar__pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #00b4ff;
+  flex-shrink: 0;
+  animation: ab-pulse 1.6s ease infinite;
+}
+
+@keyframes ab-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: .4; transform: scale(1.6); }
+}
+
+.announce-bar__text {
+  font-size: .82rem;
+  color: rgba(214,234,248,.8);
+  white-space: nowrap;
+}
+
+.announce-bar__text strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.announce-bar__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .78rem;
+  font-weight: 700;
+  color: #00b4ff;
+  background: rgba(0,180,255,.1);
+  border: 1px solid rgba(0,180,255,.3);
+  border-radius: 20px;
+  padding: 4px 12px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .15s, color .15s;
+  flex-shrink: 0;
+}
+
+.announce-bar__cta:hover {
+  background: rgba(0,180,255,.2);
+  color: #fff;
+}
+
+.announce-bar__close {
+  width: 24px; height: 24px;
+  background: transparent;
+  border: none;
+  color: rgba(214,234,248,.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: color .15s;
+  padding: 0;
+}
+
+.announce-bar__close:hover { color: #fff; }
+
+/* Empurra o body para baixo quando a bar está visível */
+body.has-announce-bar .navbar {
+  top: 44px;
+  transition: top .3s ease;
+}
+
+body.has-announce-bar .progress-bar {
+  top: 44px;
+}
+
+@media (max-width: 600px) {
+  .announce-bar__text { font-size: .72rem; }
+  .announce-bar__text span { display: none; }
+  .announce-bar { gap: 10px; }
+}
+
+
+/* ── OPÇÃO 1: WHATSAPP BUTTON INTELIGENTE ───────────────────────── */
+.whatsapp-float {
+  transition:
+    background .3s ease,
+    box-shadow .3s ease,
+    transform .2s ease;
+}
+
+/* Estado "demo" — quando muda para azul */
+.whatsapp-float.mode-demo {
+  background: #00b4ff !important;
+  box-shadow: 0 8px 32px rgba(0,180,255,.5) !important;
+}
+
+.whatsapp-float.mode-demo svg {
+  display: none;
+}
+
+.whatsapp-float.mode-demo::before {
+  content: '▶';
+  font-size: 1rem;
+  color: #000;
+  font-weight: 700;
+}
+
+.whatsapp-float.mode-demo .whatsapp-float__label {
+  color: #000 !important;
+}
+
+/* Animação de shake para chamar atenção */
+@keyframes float-shake {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25%       { transform: translateY(-4px) rotate(-3deg); }
+  75%       { transform: translateY(-4px) rotate(3deg); }
+}
+
+.whatsapp-float.shake {
+  animation: float-shake .5s ease;
+}
+
+
+/* ── OPÇÃO 3: STICKY CTA ────────────────────────────────────────── */
+.score-sticky {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 90;
+  background: rgba(10,22,40,.97);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(0,180,255,.2);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transform: translateY(100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+  flex-wrap: wrap;
+}
+
+.score-sticky.visible {
+  transform: translateY(0);
+}
+
+.score-sticky__left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.score-sticky__icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: rgba(0,180,255,.12);
+  border: 1px solid rgba(0,180,255,.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.score-sticky__text strong {
+  display: block;
+  font-size: .9rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.score-sticky__text span {
+  font-size: .75rem;
+  color: rgba(214,234,248,.5);
+}
+
+.score-sticky__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.score-sticky__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #00b4ff;
+  color: #000;
+  font-size: .82rem;
+  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: box-shadow .2s, transform .15s;
+}
+
+.score-sticky__cta:hover {
+  box-shadow: 0 0 20px rgba(0,180,255,.5);
+  transform: translateY(-1px);
+}
+
+.score-sticky__dismiss {
+  background: transparent;
+  border: none;
+  color: rgba(214,234,248,.3);
+  cursor: pointer;
+  font-size: 1.1rem;
+  width: 28px; height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: color .15s;
+  padding: 0;
+}
+
+.score-sticky__dismiss:hover { color: rgba(214,234,248,.7); }
+
+/* Não sobrepor o botão do WhatsApp no mobile */
+@media (max-width: 768px) {
+  .score-sticky {
+    padding: 10px 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .score-sticky__actions { width: 100%; }
+  .score-sticky__cta { flex: 1; justify-content: center; }
+
+  /* Sobe o whatsapp float quando o sticky está visível */
+  .score-sticky.visible ~ .whatsapp-float,
+  body.sticky-demo-visible .whatsapp-float {
+    bottom: 130px;
+  }
+}
 
