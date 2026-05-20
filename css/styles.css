@@ -2114,7 +2114,7 @@ body.has-announce-bar .hero {
 .score-sticky {
   position: fixed;
   bottom: 0; left: 0; right: 0;
-  z-index: 90;
+  z-index: 910;
   background: rgba(10,22,40,.97);
   backdrop-filter: blur(12px);
   border-top: 1px solid rgba(0,180,255,.2);
@@ -2211,9 +2211,9 @@ body.has-announce-bar .hero {
 
 /* Esconde WhatsApp quando sticky CTA está ativo */
 body.sticky-demo-visible .whatsapp-float {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(16px) scale(0.85);
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(16px) scale(0.85) !important;
 }
 
 /* Não sobrepor o botão do WhatsApp no mobile */
